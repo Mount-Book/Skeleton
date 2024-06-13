@@ -30,6 +30,7 @@ namespace Skeleton
             InitializeComponent();
             Application.ApplicationExit += new EventHandler(Application_ApplicationExit);
             this.MaximizeBox = !this.MaximizeBox;
+            this.FormBorderStyle = FormBorderStyle.FixedSingle;
             WindowListBox.DropDownStyle = ComboBoxStyle.DropDownList;
             OpacityBar.Value = opacity;
             ShowOpacity.Text = opacity.ToString();
