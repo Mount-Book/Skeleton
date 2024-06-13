@@ -8,8 +8,7 @@ namespace Skeleton
     {
         int opacity = 255;
         List<string> windowList = new List<string>();
-        string selectProcess = "";
-        IntPtr hWnd;
+        IntPtr hWnd = new IntPtr();
 
         [DllImport("user32.dll")]
         static extern bool SetLayeredWindowAttributes(IntPtr hWnd, uint crKey, byte bAlpha, uint dwFlags);
@@ -43,14 +42,6 @@ namespace Skeleton
             ShowOpacity.Text = opacity.ToString();
             // ìßñæìxÇê›íË
             SetLayeredWindowAttributes(hWnd, 0, (byte)opacity, LWA_ALPHA);
-        }
-
-        private float ConvertOpacity(int opacity_int)
-        {
-            if (opacity_int < 16) { opacity_int = 16; }
-            float opacity_float = ((float)opacity_int / 255.0f);
-
-            return opacity_float;
         }
 
         private void GetAllWindow()
@@ -106,9 +97,10 @@ namespace Skeleton
             opacity = 255;
             OpacityBar.Value = opacity;
             ShowOpacity.Text = opacity.ToString();
+            hWnd = new IntPtr();
         }
 
-        private void Application_ApplicationExit(object sender, EventArgs e)
+        private void Application_ApplicationExit(object? sender, EventArgs e)
         {
             OpacityReset();
 
