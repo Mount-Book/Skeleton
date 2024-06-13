@@ -34,6 +34,7 @@
             ShowOpacity = new Label();
             WindowListBox = new ComboBox();
             ReacquisitionButton = new Button();
+            IsForegroundCheck = new CheckBox();
             ((System.ComponentModel.ISupportInitialize)OpacityBar).BeginInit();
             SuspendLayout();
             // 
@@ -95,11 +96,23 @@
             ReacquisitionButton.UseVisualStyleBackColor = true;
             ReacquisitionButton.Click += ReacquisitionButton_Click;
             // 
+            // IsForegroundCheck
+            // 
+            IsForegroundCheck.AutoSize = true;
+            IsForegroundCheck.Location = new Point(12, 41);
+            IsForegroundCheck.Name = "IsForegroundCheck";
+            IsForegroundCheck.Size = new Size(83, 19);
+            IsForegroundCheck.TabIndex = 6;
+            IsForegroundCheck.Text = "常に最前面";
+            IsForegroundCheck.UseVisualStyleBackColor = true;
+            IsForegroundCheck.CheckedChanged += IsForegroundCheck_CheckedChanged;
+            // 
             // App
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(284, 181);
+            Controls.Add(IsForegroundCheck);
             Controls.Add(ReacquisitionButton);
             Controls.Add(WindowListBox);
             Controls.Add(ShowOpacity);
@@ -120,5 +133,6 @@
         private Label ShowOpacity;
         private ComboBox WindowListBox;
         private Button ReacquisitionButton;
+        private CheckBox IsForegroundCheck;
     }
 }

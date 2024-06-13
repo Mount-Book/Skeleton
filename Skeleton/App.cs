@@ -17,8 +17,8 @@ namespace Skeleton
         [DllImport("user32.dll")]
         static extern int SetWindowLong(IntPtr hWnd, int nIndex, uint dwNewLong);
 
-        [DllImport("user32.dll", SetLastError = true)]
-        static extern IntPtr FindWindow(string lpClassName, string lpWindowName);
+        [DllImport("user32.dll")]
+        static extern bool SetWindowPos(IntPtr hWnd, IntPtr hWndInsertAfter, int X, int Y, int cx, int cy, uint uFlags);
 
         const int GWL_EXSTYLE = -20;
         const uint WS_EX_LAYERED = 0x80000;
@@ -102,6 +102,7 @@ namespace Skeleton
         private void OpacityReset()
         {
             SetLayeredWindowAttributes(hWnd, 0, 255, LWA_ALPHA);
+            IsForegroundCheck.Checked = false;
             opacity = 255;
             OpacityBar.Value = opacity;
             ShowOpacity.Text = opacity.ToString();
@@ -113,6 +114,24 @@ namespace Skeleton
 
             //ApplicationExitイベントハンドラを削除
             Application.ApplicationExit -= new EventHandler(Application_ApplicationExit);
+        }
+
+        private void IsForegroundCheck_CheckedChanged(object sender, EventArgs e)
+        {
+            const int HWND_TOPMOST = (-1);
+            const int HWND_NOTOPMOST = (-2);
+
+            const uint SWP_NOSIZE = 0x0001;
+            const uint SWP_NOMOVE = 0x0002;
+
+            if (IsForegroundCheck.Checked)
+            {
+                SetWindowPos(hWnd, new IntPtr(HWND_TOPMOST), 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE);
+            }
+            else
+            {
+                SetWindowPos(hWnd, new IntPtr(HWND_NOTOPMOST), 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE);
+            }
         }
     }
 }

@@ -6,7 +6,7 @@
     <Nullable>enable</Nullable>
     <UseWindowsForms>true</UseWindowsForms>
     <ImplicitUsings>enable</ImplicitUsings>
-    <FileVersion>0.9.1</FileVersion>
+    <FileVersion>0.9.2</FileVersion>
     <Title>すけるとん</Title>
     <Authors>Mt.Book</Authors>
     <Company />
