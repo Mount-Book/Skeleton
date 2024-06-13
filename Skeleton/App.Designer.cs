@@ -28,14 +28,12 @@
         /// </summary>
         private void InitializeComponent()
         {
-            backgroundWorker1 = new System.ComponentModel.BackgroundWorker();
             OpacityBar = new TrackBar();
             label1 = new Label();
             label2 = new Label();
             ShowOpacity = new Label();
             WindowListBox = new ComboBox();
             ReacquisitionButton = new Button();
-            backgroundWorker2 = new System.ComponentModel.BackgroundWorker();
             ((System.ComponentModel.ISupportInitialize)OpacityBar).BeginInit();
             SuspendLayout();
             // 
@@ -116,14 +114,11 @@
         }
 
         #endregion
-
-        private System.ComponentModel.BackgroundWorker backgroundWorker1;
         private TrackBar OpacityBar;
         private Label label1;
         private Label label2;
         private Label ShowOpacity;
         private ComboBox WindowListBox;
         private Button ReacquisitionButton;
-        private System.ComponentModel.BackgroundWorker backgroundWorker2;
     }
 }
