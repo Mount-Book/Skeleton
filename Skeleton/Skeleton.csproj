@@ -6,11 +6,13 @@
     <Nullable>enable</Nullable>
     <UseWindowsForms>true</UseWindowsForms>
     <ImplicitUsings>enable</ImplicitUsings>
-    <FileVersion>0.9.3</FileVersion>
+    <FileVersion>0.9.2</FileVersion>
     <Title>すけるとん</Title>
     <Authors>Mt.Book</Authors>
     <Company />
     <Description>ウィンドウ透過ソフト</Description>
+    <PackageIcon></PackageIcon>
+    <RepositoryUrl>https://github.com/Mount-Book/Skeleton</RepositoryUrl>
   </PropertyGroup>
 
 </Project>

@@ -121,6 +121,8 @@
             Controls.Add(OpacityBar);
             Name = "App";
             Text = "すけるとん";
+            Activated += App_Activated;
+            Deactivate += App_Deactivate;
             ((System.ComponentModel.ISupportInitialize)OpacityBar).EndInit();
             ResumeLayout(false);
             PerformLayout();
