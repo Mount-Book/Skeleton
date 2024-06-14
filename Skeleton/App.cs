@@ -22,7 +22,6 @@ namespace Skeleton
         const int GWL_EXSTYLE = -20;
         const uint WS_EX_LAYERED = 0x80000;
         const uint LWA_ALPHA = 0x2;
-        const uint LWA_COLORKEY = 0x1;
 
         public App()
         {
@@ -119,11 +118,22 @@ namespace Skeleton
             if (IsForegroundCheck.Checked)
             {
                 SetWindowPos(hWnd, new IntPtr(HWND_TOPMOST), 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE);
+                Activate();
             }
             else
             {
                 SetWindowPos(hWnd, new IntPtr(HWND_NOTOPMOST), 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE);
             }
+        }
+
+        private void App_Activated(object sender, EventArgs e)
+        {
+            TopMost = true;
+        }
+
+        private void App_Deactivate(object sender, EventArgs e)
+        {
+            TopMost = false;
         }
     }
 }
