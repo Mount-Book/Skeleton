@@ -33,7 +33,6 @@
             label2 = new Label();
             ShowOpacity = new Label();
             WindowListBox = new ComboBox();
-            ReacquisitionButton = new Button();
             IsForegroundCheck = new CheckBox();
             ((System.ComponentModel.ISupportInitialize)OpacityBar).BeginInit();
             SuspendLayout();
@@ -79,22 +78,15 @@
             // 
             // WindowListBox
             // 
+            WindowListBox.DropDownStyle = ComboBoxStyle.DropDownList;
             WindowListBox.FormattingEnabled = true;
+            WindowListBox.ImeMode = ImeMode.NoControl;
             WindowListBox.Location = new Point(12, 12);
             WindowListBox.Name = "WindowListBox";
-            WindowListBox.Size = new Size(196, 23);
+            WindowListBox.Size = new Size(260, 23);
             WindowListBox.TabIndex = 4;
             WindowListBox.SelectedValueChanged += WindowListBox_SelectedValueChanged;
-            // 
-            // ReacquisitionButton
-            // 
-            ReacquisitionButton.Location = new Point(214, 12);
-            ReacquisitionButton.Name = "ReacquisitionButton";
-            ReacquisitionButton.Size = new Size(58, 23);
-            ReacquisitionButton.TabIndex = 5;
-            ReacquisitionButton.Text = "再取得";
-            ReacquisitionButton.UseVisualStyleBackColor = true;
-            ReacquisitionButton.Click += ReacquisitionButton_Click;
+            WindowListBox.Click += WindowListBox_Click;
             // 
             // IsForegroundCheck
             // 
@@ -113,7 +105,6 @@
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(284, 181);
             Controls.Add(IsForegroundCheck);
-            Controls.Add(ReacquisitionButton);
             Controls.Add(WindowListBox);
             Controls.Add(ShowOpacity);
             Controls.Add(label2);
@@ -134,7 +125,6 @@
         private Label label2;
         private Label ShowOpacity;
         private ComboBox WindowListBox;
-        private Button ReacquisitionButton;
         private CheckBox IsForegroundCheck;
     }
 }
