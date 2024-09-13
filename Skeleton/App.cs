@@ -1,5 +1,7 @@
 using System.Diagnostics;
+using System.Reflection;
 using System.Runtime.InteropServices;
+using System.Security.Principal;
 using System.Text;
 
 namespace Skeleton
@@ -7,7 +9,7 @@ namespace Skeleton
     public partial class App : Form
     {
         int opacity = 255;
-        List<string> windowList = new List<string>();
+        List<WindowData> windowsData = new List<WindowData>();
         IntPtr hWnd = new IntPtr();
 
         [DllImport("user32.dll")]
@@ -26,6 +28,7 @@ namespace Skeleton
         public App()
         {
             InitializeComponent();
+
             Application.ApplicationExit += new EventHandler(Application_ApplicationExit);
             this.MaximizeBox = !this.MaximizeBox;
             this.FormBorderStyle = FormBorderStyle.FixedSingle;
@@ -40,28 +43,49 @@ namespace Skeleton
             opacity = OpacityBar.Value;
             ShowOpacity.Text = opacity.ToString();
             // 透明度を設定
-            SetLayeredWindowAttributes(hWnd, 0, (byte)opacity, LWA_ALPHA);
+            if (!SetLayeredWindowAttributes(hWnd, 0, (byte)opacity, LWA_ALPHA))
+            {
+                MessageBox.Show("透過度の変更に失敗");
+            }
         }
 
         private void GetAllWindow()
         {
-            windowList = new List<string>();
+            // ここがエラーの原因になってるから頑張って直すかぁ！クソが代！
+            int selectId = WindowListBox.SelectedIndex < 0 ? -1 : windowsData[WindowListBox.SelectedIndex].WindowId;
+
+            windowsData = new List<WindowData>();
             WindowListBox.Items.Clear();
-            foreach (System.Diagnostics.Process p in System.Diagnostics.Process.GetProcesses())
+            int index = 0;
+            foreach (Process p in Process.GetProcesses())
             {
                 //メインウィンドウのタイトルがある時だけ列挙する
                 if (p.MainWindowTitle.Length != 0)
                 {
+                    Debug.WriteLine($"{p.MainWindowTitle} / {p.Id}");
                     WindowListBox.Items.Add(p.MainWindowTitle + " / " + p.ProcessName);
-                    windowList.Add(p.ProcessName);
+                    windowsData.Add(new WindowData(p.Id, index, p.ProcessName, p.MainWindowTitle));
+                    index++;
+                }
+            }
+
+            // ウィンドウ一覧を取得した時に初期化されちゃうから選択してた物があったらコッチで選択してあげよ♪
+            if (!(selectId < 0))
+            {
+                foreach (WindowData windowData in windowsData)
+                {
+                    if (windowData.WindowId == selectId)
+                    {
+                        Debug.WriteLine($"{windowData.WindowName}");
+                        WindowListBox.SelectedIndex = windowData.WindowIndex;
+                    }
                 }
             }
         }
 
         private void DebugButton_Click(object sender, EventArgs e)
         {
-            int index = WindowListBox.SelectedIndex;
-            Debug.WriteLine(windowList[index]);
+            Debug.WriteLine(hWnd);
         }
 
         private void ReacquisitionButton_Click(object sender, EventArgs e)
@@ -74,23 +98,23 @@ namespace Skeleton
         {
             OpacityReset();
             int index = WindowListBox.SelectedIndex;
-
-            Process[] processes = Process.GetProcessesByName(windowList[index]);
-            foreach (Process proc in processes)
-            {
+            // 無選択状態のindexは-1で無を取得しないように弾くよ！危ないね～♪
+            if (!(index < 0)) {
+                Process proc = Process.GetProcessById(windowsData[index].WindowId);
                 if (!proc.MainWindowTitle.Equals(string.Empty))
                 {
-                    // メインウィンドウハンドルを取得
+                    // メインウィンドウハンドルを取得しちゃうよ！
                     hWnd = proc.MainWindowHandle;
 
-                    // ウィンドウスタイルにWS_EX_LAYEREDを追加
+                    // ウィンドウスタイルにWS_EX_LAYEREDを追加したら透明度とか変更できちゃう♪
                     SetWindowLong(hWnd, GWL_EXSTYLE, WS_EX_LAYERED);
                 }
-            }
+            };
         }
 
         private void OpacityReset()
         {
+            // これは選択が解除された時にウィンドウの状態を元に戻す関数だよ！そのままだと大変だからね！
             SetLayeredWindowAttributes(hWnd, 0, 255, LWA_ALPHA);
             IsForegroundCheck.Checked = false;
             opacity = 255;
@@ -134,6 +158,22 @@ namespace Skeleton
         private void App_Deactivate(object sender, EventArgs e)
         {
             TopMost = false;
+        }
+
+        private void WindowListBox_Click(object sender, EventArgs e)
+        {
+            Debug.WriteLine("testtest");
+
+            string select = WindowListBox.SelectedText;
+
+            OpacityReset();
+            GetAllWindow();
+            if (select == "")
+            {
+                
+            }
+            
+
         }
     }
 }
