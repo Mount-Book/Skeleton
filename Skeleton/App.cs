@@ -40,13 +40,7 @@ namespace Skeleton
 
         private void OpacityBar_Scroll(object sender, EventArgs e)
         {
-            opacity = OpacityBar.Value;
-            ShowOpacity.Text = opacity.ToString();
-            // 透明度を設定
-            if (!SetLayeredWindowAttributes(hWnd, 0, (byte)opacity, LWA_ALPHA))
-            {
-                MessageBox.Show("透過度の変更に失敗");
-            }
+            OpacityChange(OpacityBar.Value);
         }
 
         private void GetAllWindow()
@@ -99,7 +93,8 @@ namespace Skeleton
             OpacityReset();
             int index = WindowListBox.SelectedIndex;
             // 無選択状態のindexは-1で無を取得しないように弾くよ！危ないね～♪
-            if (!(index < 0)) {
+            if (!(index < 0))
+            {
                 Process proc = Process.GetProcessById(windowsData[index].WindowId);
                 if (!proc.MainWindowTitle.Equals(string.Empty))
                 {
@@ -170,10 +165,47 @@ namespace Skeleton
             GetAllWindow();
             if (select == "")
             {
-                
-            }
-            
 
+            }
+
+
+        }
+
+        private void Opacity32Button_Click(object sender, EventArgs e)
+        {
+            OpacityChange(32);
+        }
+
+        private void Opacity48Button_Click(object sender, EventArgs e)
+        {
+            OpacityChange(48);
+        }
+
+        private void Opacity64Button_Click(object sender, EventArgs e)
+        {
+            OpacityChange(64);
+        }
+
+        private void Opacity128Button_Click(object sender, EventArgs e)
+        {
+            OpacityChange(128);
+        }
+        private void OpacityChange(int num)
+        {
+            int temp = opacity;
+            opacity = num;
+            // 透明度を設定
+            if (!SetLayeredWindowAttributes(hWnd, 0, (byte)opacity, LWA_ALPHA))
+            {
+                MessageBox.Show("透過度の変更に失敗");
+                opacity = temp;
+                OpacityBar.Value = opacity;
+            }
+            else
+            {
+                OpacityBar.Value = opacity;
+                ShowOpacity.Text = opacity.ToString();
+            }
         }
     }
 }
