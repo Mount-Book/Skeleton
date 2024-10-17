@@ -34,6 +34,10 @@
             ShowOpacity = new Label();
             WindowListBox = new ComboBox();
             IsForegroundCheck = new CheckBox();
+            Opacity32Button = new Button();
+            Opacity64Button = new Button();
+            Opacity48Button = new Button();
+            Opacity128Button = new Button();
             ((System.ComponentModel.ISupportInitialize)OpacityBar).BeginInit();
             SuspendLayout();
             // 
@@ -91,7 +95,7 @@
             // IsForegroundCheck
             // 
             IsForegroundCheck.AutoSize = true;
-            IsForegroundCheck.Location = new Point(12, 41);
+            IsForegroundCheck.Location = new Point(12, 42);
             IsForegroundCheck.Name = "IsForegroundCheck";
             IsForegroundCheck.Size = new Size(83, 19);
             IsForegroundCheck.TabIndex = 6;
@@ -99,11 +103,55 @@
             IsForegroundCheck.UseVisualStyleBackColor = true;
             IsForegroundCheck.CheckedChanged += IsForegroundCheck_CheckedChanged;
             // 
+            // Opacity32Button
+            // 
+            Opacity32Button.Location = new Point(94, 40);
+            Opacity32Button.Name = "Opacity32Button";
+            Opacity32Button.Size = new Size(41, 23);
+            Opacity32Button.TabIndex = 7;
+            Opacity32Button.Text = "32";
+            Opacity32Button.UseVisualStyleBackColor = true;
+            Opacity32Button.Click += Opacity32Button_Click;
+            // 
+            // Opacity64Button
+            // 
+            Opacity64Button.Location = new Point(184, 40);
+            Opacity64Button.Name = "Opacity64Button";
+            Opacity64Button.Size = new Size(41, 23);
+            Opacity64Button.TabIndex = 7;
+            Opacity64Button.Text = "64";
+            Opacity64Button.UseVisualStyleBackColor = true;
+            Opacity64Button.Click += Opacity64Button_Click;
+            // 
+            // Opacity48Button
+            // 
+            Opacity48Button.Location = new Point(139, 40);
+            Opacity48Button.Name = "Opacity48Button";
+            Opacity48Button.Size = new Size(41, 23);
+            Opacity48Button.TabIndex = 7;
+            Opacity48Button.Text = "48";
+            Opacity48Button.UseVisualStyleBackColor = true;
+            Opacity48Button.Click += Opacity48Button_Click;
+            // 
+            // Opacity128Button
+            // 
+            Opacity128Button.Location = new Point(229, 40);
+            Opacity128Button.Name = "Opacity128Button";
+            Opacity128Button.Size = new Size(41, 23);
+            Opacity128Button.TabIndex = 7;
+            Opacity128Button.Text = "128";
+            Opacity128Button.UseVisualStyleBackColor = true;
+            Opacity128Button.Click += Opacity128Button_Click;
+            // 
             // App
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(284, 181);
+            Controls.Add(Opacity128Button);
+            Controls.Add(Opacity64Button);
+            Controls.Add(Opacity48Button);
+            Controls.Add(Opacity32Button);
             Controls.Add(IsForegroundCheck);
             Controls.Add(WindowListBox);
             Controls.Add(ShowOpacity);
@@ -126,5 +174,9 @@
         private Label ShowOpacity;
         private ComboBox WindowListBox;
         private CheckBox IsForegroundCheck;
+        private Button Opacity32Button;
+        private Button Opacity64Button;
+        private Button Opacity48Button;
+        private Button Opacity128Button;
     }
 }
