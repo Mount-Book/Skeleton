@@ -21,6 +21,9 @@ namespace Skeleton
         [DllImport("user32.dll")]
         static extern bool SetWindowPos(IntPtr hWnd, IntPtr hWndInsertAfter, int X, int Y, int cx, int cy, uint uFlags);
 
+        [DllImport("user32.dll", SetLastError = true)]
+        static extern bool PostMessage(IntPtr hWnd, uint Msg, IntPtr wParam, IntPtr lParam);
+
         const int GWL_EXSTYLE = -20;
         const uint WS_EX_LAYERED = 0x80000;
         const uint LWA_ALPHA = 0x2;
@@ -35,6 +38,7 @@ namespace Skeleton
             WindowListBox.DropDownStyle = ComboBoxStyle.DropDownList;
             OpacityBar.Value = opacity;
             ShowOpacity.Text = opacity.ToString();
+            this.CustomOpacityNumericUpDown.Value = Properties.Settings.Default.CustomOpacity;
             GetAllWindow();
         }
 
@@ -70,8 +74,10 @@ namespace Skeleton
                 {
                     if (windowData.WindowId == selectId)
                     {
+                        int temp = opacity;
                         Debug.WriteLine($"{windowData.WindowName}");
                         WindowListBox.SelectedIndex = windowData.WindowIndex;
+                        OpacityChange(temp);
                     }
                 }
             }
@@ -90,6 +96,7 @@ namespace Skeleton
 
         private void WindowListBox_SelectedValueChanged(object sender, EventArgs e)
         {
+            Debug.WriteLine("ÇŒÇËÇ„Å[ÇøÇ•ÇÒÇ∂");
             OpacityReset();
             int index = WindowListBox.SelectedIndex;
             // ñ≥ëIëèÛë‘ÇÃindexÇÕ-1Ç≈ñ≥ÇéÊìæÇµÇ»Ç¢ÇÊÇ§Ç…íeÇ≠ÇÊÅIäÎÇ»Ç¢ÇÀÅ`ÅÙ
@@ -157,39 +164,15 @@ namespace Skeleton
 
         private void WindowListBox_Click(object sender, EventArgs e)
         {
-            Debug.WriteLine("testtest");
-
-            string select = WindowListBox.SelectedText;
-
-            OpacityReset();
+            //OpacityReset();
             GetAllWindow();
-            if (select == "")
-            {
-
-            }
-
-
         }
 
-        private void Opacity32Button_Click(object sender, EventArgs e)
+        private void OpacityQuickButton_Click(object sender, EventArgs e)
         {
-            OpacityChange(32);
+            OpacityChange(Int32.Parse(((Button)sender).Text));
         }
 
-        private void Opacity48Button_Click(object sender, EventArgs e)
-        {
-            OpacityChange(48);
-        }
-
-        private void Opacity64Button_Click(object sender, EventArgs e)
-        {
-            OpacityChange(64);
-        }
-
-        private void Opacity128Button_Click(object sender, EventArgs e)
-        {
-            OpacityChange(128);
-        }
         private void OpacityChange(int num)
         {
             int temp = opacity;
@@ -206,6 +189,21 @@ namespace Skeleton
                 OpacityBar.Value = opacity;
                 ShowOpacity.Text = opacity.ToString();
             }
+        }
+
+        private void CustomOpacityNumericUpDown_ValueChanged(object sender, EventArgs e)
+        {
+            CustomOpacityButton.Text = CustomOpacityNumericUpDown.Value.ToString();
+            Properties.Settings.Default.CustomOpacity = (int)CustomOpacityNumericUpDown.Value;
+            Properties.Settings.Default.Save();
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            const uint WM_CLOSE = 0x0010;
+
+            PostMessage(hWnd, WM_CLOSE, IntPtr.Zero, IntPtr.Zero);
+            this.Close();
         }
     }
 }
