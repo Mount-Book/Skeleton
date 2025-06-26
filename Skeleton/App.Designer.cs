@@ -44,7 +44,7 @@
             CustomOpacityButton = new Button();
             label3 = new Label();
             CustomOpacityNumericUpDown = new NumericUpDown();
-            button1 = new Button();
+            CloseButton = new Button();
             ((System.ComponentModel.ISupportInitialize)OpacityBar).BeginInit();
             ((System.ComponentModel.ISupportInitialize)CustomOpacityNumericUpDown).BeginInit();
             SuspendLayout();
@@ -200,24 +200,24 @@
             CustomOpacityNumericUpDown.Value = new decimal(new int[] { 255, 0, 0, 0 });
             CustomOpacityNumericUpDown.ValueChanged += CustomOpacityNumericUpDown_ValueChanged;
             // 
-            // button1
+            // CloseButton
             // 
-            button1.Font = new Font("UD デジタル 教科書体 NP-B", 20.25F, FontStyle.Bold, GraphicsUnit.Point);
-            button1.ForeColor = Color.Red;
-            button1.Location = new Point(93, 94);
-            button1.Name = "button1";
-            button1.Size = new Size(99, 47);
-            button1.TabIndex = 11;
-            button1.Text = "自爆";
-            button1.UseVisualStyleBackColor = true;
-            button1.Click += button1_Click;
+            CloseButton.Font = new Font("UD デジタル 教科書体 NP-B", 20.25F, FontStyle.Bold, GraphicsUnit.Point);
+            CloseButton.ForeColor = Color.Red;
+            CloseButton.Location = new Point(93, 94);
+            CloseButton.Name = "CloseButton";
+            CloseButton.Size = new Size(99, 47);
+            CloseButton.TabIndex = 11;
+            CloseButton.Text = "自爆";
+            CloseButton.UseVisualStyleBackColor = true;
+            CloseButton.Click += CloseButton_Click;
             // 
             // App
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(284, 181);
-            Controls.Add(button1);
+            Controls.Add(CloseButton);
             Controls.Add(CustomOpacityNumericUpDown);
             Controls.Add(label3);
             Controls.Add(CustomOpacityButton);
@@ -261,6 +261,6 @@
         private Button CustomOpacityButton;
         private Label label3;
         private NumericUpDown CustomOpacityNumericUpDown;
-        private Button button1;
+        private Button CloseButton;
     }
 }

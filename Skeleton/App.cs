@@ -1,8 +1,5 @@
 using System.Diagnostics;
-using System.Reflection;
 using System.Runtime.InteropServices;
-using System.Security.Principal;
-using System.Text;
 
 namespace Skeleton
 {
@@ -10,7 +7,7 @@ namespace Skeleton
     {
         int opacity = 255;
         List<WindowData> windowsData = new List<WindowData>();
-        IntPtr hWnd = new IntPtr();
+        IntPtr hWnd = IntPtr.Zero;
 
         [DllImport("user32.dll")]
         static extern bool SetLayeredWindowAttributes(IntPtr hWnd, uint crKey, byte bAlpha, uint dwFlags);
@@ -49,7 +46,7 @@ namespace Skeleton
 
         private void GetAllWindow()
         {
-            // ‚±‚±‚ªƒGƒ‰[‚ÌŒ´ˆö‚É‚È‚Á‚Ä‚é‚©‚çŠæ’£‚Á‚Ä’¼‚·‚©‚ŸIƒNƒ\‚ª‘ãI
+            // ã“ã“ãŒã‚¨ãƒ©ãƒ¼ã®åŸå› ã«ãªã£ã¦ã‚‹ã‹ã‚‰é ‘å¼µã£ã¦ç›´ã™ã‹ãï¼ã‚¯ã‚½ãŒä»£ï¼
             int selectId = WindowListBox.SelectedIndex < 0 ? -1 : windowsData[WindowListBox.SelectedIndex].WindowId;
 
             windowsData = new List<WindowData>();
@@ -57,7 +54,7 @@ namespace Skeleton
             int index = 0;
             foreach (Process p in Process.GetProcesses())
             {
-                //ƒƒCƒ“ƒEƒBƒ“ƒhƒE‚Ìƒ^ƒCƒgƒ‹‚ª‚ ‚é‚¾‚¯—ñ‹“‚·‚é
+                //ãƒ¡ã‚¤ãƒ³ã‚¦ã‚£ãƒ³ãƒ‰ã‚¦ã®ã‚¿ã‚¤ãƒˆãƒ«ãŒã‚ã‚‹æ™‚ã ã‘åˆ—æŒ™ã™ã‚‹
                 if (p.MainWindowTitle.Length != 0)
                 {
                     Debug.WriteLine($"{p.MainWindowTitle} / {p.Id}");
@@ -67,7 +64,7 @@ namespace Skeleton
                 }
             }
 
-            // ƒEƒBƒ“ƒhƒEˆê——‚ğæ“¾‚µ‚½‚É‰Šú‰»‚³‚ê‚¿‚á‚¤‚©‚ç‘I‘ğ‚µ‚Ä‚½•¨‚ª‚ ‚Á‚½‚çƒRƒbƒ`‚Å‘I‘ğ‚µ‚Ä‚ ‚°‚æô
+            // ã‚¦ã‚£ãƒ³ãƒ‰ã‚¦ä¸€è¦§ã‚’å–å¾—ã—ãŸæ™‚ã«åˆæœŸåŒ–ã•ã‚Œã¡ã‚ƒã†ã‹ã‚‰é¸æŠã—ã¦ãŸç‰©ãŒã‚ã£ãŸã‚‰ã‚³ãƒƒãƒã§é¸æŠã—ã¦ã‚ã’ã‚ˆâ™ª
             if (!(selectId < 0))
             {
                 foreach (WindowData windowData in windowsData)
@@ -96,19 +93,19 @@ namespace Skeleton
 
         private void WindowListBox_SelectedValueChanged(object sender, EventArgs e)
         {
-            Debug.WriteLine("‚Î‚è‚ã[‚¿‚¥‚ñ‚¶");
+            Debug.WriteLine("ã°ã‚Šã‚…ãƒ¼ã¡ã‡ã‚“ã˜");
             OpacityReset();
             int index = WindowListBox.SelectedIndex;
-            // –³‘I‘ğó‘Ô‚Ìindex‚Í-1‚Å–³‚ğæ“¾‚µ‚È‚¢‚æ‚¤‚É’e‚­‚æIŠë‚È‚¢‚Ë`ô
+            hWnd = IntPtr.Zero;
             if (!(index < 0))
             {
                 Process proc = Process.GetProcessById(windowsData[index].WindowId);
                 if (!proc.MainWindowTitle.Equals(string.Empty))
                 {
-                    // ƒƒCƒ“ƒEƒBƒ“ƒhƒEƒnƒ“ƒhƒ‹‚ğæ“¾‚µ‚¿‚á‚¤‚æI
+                    // ãƒ¡ã‚¤ãƒ³ã‚¦ã‚£ãƒ³ãƒ‰ã‚¦ãƒãƒ³ãƒ‰ãƒ«ã‚’å–å¾—ã—ã¡ã‚ƒã†ã‚ˆï¼
                     hWnd = proc.MainWindowHandle;
 
-                    // ƒEƒBƒ“ƒhƒEƒXƒ^ƒCƒ‹‚ÉWS_EX_LAYERED‚ğ’Ç‰Á‚µ‚½‚ç“§–¾“x‚Æ‚©•ÏX‚Å‚«‚¿‚á‚¤ô
+                    // ã‚¦ã‚£ãƒ³ãƒ‰ã‚¦ã‚¹ã‚¿ã‚¤ãƒ«ã«WS_EX_LAYEREDã‚’è¿½åŠ ã—ãŸã‚‰é€æ˜åº¦ã¨ã‹å¤‰æ›´ã§ãã¡ã‚ƒã†â™ª
                     SetWindowLong(hWnd, GWL_EXSTYLE, WS_EX_LAYERED);
                 }
             };
@@ -116,7 +113,7 @@ namespace Skeleton
 
         private void OpacityReset()
         {
-            // ‚±‚ê‚Í‘I‘ğ‚ª‰ğœ‚³‚ê‚½‚ÉƒEƒBƒ“ƒhƒE‚Ìó‘Ô‚ğŒ³‚É–ß‚·ŠÖ”‚¾‚æI‚»‚Ì‚Ü‚Ü‚¾‚Æ‘å•Ï‚¾‚©‚ç‚ËI
+            // ã“ã‚Œã¯é¸æŠãŒè§£é™¤ã•ã‚ŒãŸæ™‚ã«ã‚¦ã‚£ãƒ³ãƒ‰ã‚¦ã®çŠ¶æ…‹ã‚’å…ƒã«æˆ»ã™é–¢æ•°ã ã‚ˆï¼ãã®ã¾ã¾ã ã¨å¤§å¤‰ã ã‹ã‚‰ã­ï¼
             SetLayeredWindowAttributes(hWnd, 0, 255, LWA_ALPHA);
             IsForegroundCheck.Checked = false;
             opacity = 255;
@@ -129,7 +126,7 @@ namespace Skeleton
         {
             OpacityReset();
 
-            //ApplicationExitƒCƒxƒ“ƒgƒnƒ“ƒhƒ‰‚ğíœ
+            //ApplicationExitã‚¤ãƒ™ãƒ³ãƒˆãƒãƒ³ãƒ‰ãƒ©ã‚’å‰Šé™¤
             Application.ApplicationExit -= new EventHandler(Application_ApplicationExit);
         }
 
@@ -177,10 +174,14 @@ namespace Skeleton
         {
             int temp = opacity;
             opacity = num;
-            // “§–¾“x‚ğİ’è
-            if (!SetLayeredWindowAttributes(hWnd, 0, (byte)opacity, LWA_ALPHA))
+        private void CloseButton_Click(object sender, EventArgs e)
+            if (hWnd != IntPtr.Zero)
             {
-                MessageBox.Show("“§‰ß“x‚Ì•ÏX‚É¸”s");
+                PostMessage(hWnd, WM_CLOSE, IntPtr.Zero, IntPtr.Zero);
+            }
+
+            {
+                MessageBox.Show("é€éåº¦ã®å¤‰æ›´ã«å¤±æ•—");
                 opacity = temp;
                 OpacityBar.Value = opacity;
             }
